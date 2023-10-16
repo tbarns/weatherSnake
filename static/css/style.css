@@ -1,0 +1,175 @@
+* {
+    user-select: none;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    margin: 0;
+    background: aquamarine;
+    padding-bottom: 5rem;
+    overflow-y: scroll;
+}
+
+input,
+button {
+    user-select: auto;
+}
+
+.jumbotron {
+    background: aquamarine;
+    border-radius: 0;
+    font-family: "Alfa Slab One", cursive;
+    font-size: 30px;
+    color: rgb(8, 7, 5);
+    padding: 25px;
+}
+
+#clearBtn {
+    background-color: aquamarine;
+    font-weight: 300;
+    display: block;
+    border-radius: 15px;
+    margin-top: 1rem;
+}
+
+#clearBtn:hover {
+    background-color: darkkhaki;
+    transition: all 0.3s ease;
+}
+
+section {
+    padding: 10px;
+    text-align: left;
+}
+
+aside {
+    background-color: aquamarine;
+    height: 50vh;
+    padding: 0px;
+}
+
+#history {
+    background-color: bisque;
+    padding: 0;
+    position: relative;
+    height: 100%;
+    padding-top: 3rem;
+    order: -1;
+}
+
+#history-mobile {
+    display: none;
+}
+
+#history .card {
+    font-family: fantasy;
+    letter-spacing: calc(1 * .13rem);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin-top: 1rem;
+    padding: 0;
+}
+
+#history-pagination {
+    position: fixed;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-70%);
+}
+
+.row {
+    position: relative;
+    top: -34px;
+    margin-left: 0px;
+    margin-right: 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+input {
+    margin: 0;
+    position: relative;
+    display: block;
+    z-index: 1;
+}
+
+button {
+    margin: 0.5rem 0;
+    position: relative;
+    display: block;
+    z-index: 1;
+}
+
+.card {
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    margin: 0;
+    position: relative;
+    top: 5%;
+    left: 20%;
+    height: 5%;
+    width: 60%;
+    background: rgba(238, 130, 238, 0.363);
+    transition: all 0.6s ease;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.weather-card {
+    background-color: rgba(238, 130, 238, 0.363);
+    transition: all 0.6s ease;
+}
+
+.weather-card:hover {
+    background-color: rgb(62, 62, 62);
+    color: azure;
+    z-index: 1;
+}
+
+#weatherBar {
+    background-color: aquamarine;
+    padding: 0px;
+    text-align: center;
+    height: 8rem;
+    font-size: calc(1 * .95rem);
+}
+
+.weatherFuture {
+    background: rgba(199, 21, 133, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    margin: 1rem;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.weatherFuture:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.weatherIcon {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+}
+
+.weatherTemperature {
+    font-size: 24px;
+}
+
+#weatherForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}

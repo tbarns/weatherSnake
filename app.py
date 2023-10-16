@@ -20,18 +20,18 @@ def capitalize_words(city_name):
 
 @app.route('/')
 def index():
-    # Get the history of searches from a session variable (a Pythonic way to handle user sessions with Flask)
+    # Get the history of searches from a session variable
     history = session.get('history', [])
     return render_template('index.html', history=history)
 
 @app.route('/getweather', methods=['POST'])
-def search():
-    print(request.form) 
+def search(): 
     city = request.form.get('location')
     if not city:
         return jsonify({"error": "Please provide a city name"}), 400
     city = capitalize_words(city)
-    # Update the session variable
+  
+ # Update the session variable
     history = session.get('history', [])
     if city not in history:
         history.append(city)
