@@ -1,15 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
-    <form action="/getweather" method="post">
-        <input type="text" name="location" placeholder="Enter location">
+    <form id="weatherForm">
+        <input type="text" name="city" placeholder="Enter location">
         <button type="submit">Get Weather</button>
     </form>
-    <!-- Add an area to display the weather info -->
+    <div id="weatherResults">
+        <!-- This is where the weather info will appear -->
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#weatherForm").submit(function(event) {
+                event.preventDefault(); // Prevent the form from doing a full page submission
+                
+                $.post("/getweather", $(this).serialize(), function(data) {
+                    // Clear previous results
+                    $("#weatherResults").empty();
+                    
+                    // Loop through the returned data and display it
+                    data.forEach(function(day) {
+                        $("#weatherResults").append(`
+                            <div>
+                                <img src="${day.icon_url}" alt="Weather Icon">
+                                <p>Temperature: ${day.temp}°F</p>
+                                <p>Humidity: ${day.humidity}%</p>
+                                <p>Wind Speed: ${day.wind_speed} mph</p>
+                            </div>
+                        `);
+                    });
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>
