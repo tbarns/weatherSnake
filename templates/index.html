@@ -33,7 +33,7 @@
 
 <div id="weatherResults" class="row">
     {% for day in weather_data %}
-        <div class="weather-card">
+        <div class="{% if loop.index == 1 %}weatherToday{% else %}weatherFuture{% endif %}">
             <h3>{{ day.day }}</h3>
             <img src="{{ day.icon_url }}" alt="Weather Icon" class="weatherIcon">
             <p class="weatherTemperature">Temperature: {{ day.temp }}°F</p>
@@ -42,5 +42,6 @@
         </div>
     {% endfor %}
 </div>
+
 </body>
 </html>

@@ -9,11 +9,31 @@ body {
     background: aquamarine;
     padding-bottom: 5rem;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-
+form.row {
+    margin: 2rem 0;
+    width: 80%;  /* Adjust the width as per requirement */
+}
+.history-item {
+    margin-right: 1rem; /* space between items */
+    display: inline-block;
+}
+#searchHistory {
+    margin: 1rem 0;
+    width: 80%;  /* Adjust the width as per requirement */
+}
 input,
 button {
     user-select: auto;
+}
+.weatherToday {
+    background: rgba(255, 182, 193, 0.6);  /* Change the color to make it distinct */
+    display: block;  /* Make it span the entire row */
+    margin-bottom: 2rem;  /* Add some space before the future dates */
+    width: 80%;
 }
 
 .jumbotron {
@@ -89,6 +109,7 @@ aside {
     margin-right: 0px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 input {
@@ -123,6 +144,7 @@ button {
 .weather-card {
     background-color: rgba(238, 130, 238, 0.363);
     transition: all 0.6s ease;
+    margin: 1rem;
 }
 
 .weather-card:hover {
@@ -146,7 +168,7 @@ button {
     justify-content: center;
     align-items: center;
     border-radius: 20px;
-    margin: 1rem;
+    margin: 1rem ;
     padding: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
