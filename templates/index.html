@@ -34,6 +34,7 @@
 <div id="weatherResults" class="row">
     {% for day in weather_data %}
         <div class="weather-card">
+            <h3>{{ day.day }}</h3>
             <img src="{{ day.icon_url }}" alt="Weather Icon" class="weatherIcon">
             <p class="weatherTemperature">Temperature: {{ day.temp }}°F</p>
             <p>Humidity: {{ day.humidity }}%</p>

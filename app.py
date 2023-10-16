@@ -3,6 +3,8 @@ import requests
 import os
 from dotenv import load_dotenv
 from flask_cors import CORS
+from datetime import datetime
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -13,6 +15,10 @@ app_secret_key = os.getenv("SECRET_KEY")
 app = Flask(__name__)
 app.secret_key = app_secret_key 
 CORS(app)
+
+def get_day_from_timestamp(timestamp):
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    return days[datetime.utcfromtimestamp(timestamp).weekday()]
 
 def capitalize_words(city_name):
     return " ".join(word.capitalize() for word in city_name.split())
@@ -84,9 +90,12 @@ def get_five_day_forecast(lat, lon):
     data = response.json()
 
     days_data = []
+    day_names = ["Today", "Day 2", "Day 3", "Day 4", "Day 5"]
     for index in range(5):
         day_data = data['list'][index * 8]
+        day_name = day_names[index] if index < len(day_names) else get_day_from_timestamp(day_data['dt'])
         days_data.append({
+            "day": day_name,
             "temp": day_data['main']['temp'],
             "humidity": day_data['main']['humidity'],
             "wind_speed": day_data['wind']['speed'],
