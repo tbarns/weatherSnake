@@ -22,7 +22,10 @@ def get_day_from_timestamp(timestamp):
 
 def capitalize_words(city_name):
     return " ".join(word.capitalize() for word in city_name.split())
-
+@app.route('/loading')
+def loading():
+    time.sleep(2)  # Sleep for 2 seconds to simulate loading
+    return redirect(url_for('main'))
 @app.route('/')
 def index():
     history = session.get('history', [])
@@ -45,7 +48,7 @@ def search():
         session['history'] = history
 
     weather_data = fetch_weather_for_city(city)
-    return render_template('index.html', history=history, weather_data=weather_data)
+    return render_template('index.html', history=history, weather_data=weather_data, city_name=city)
 
 @app.route('/clear-history')
 def clear_history():

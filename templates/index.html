@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="jumbotron">
-    <h1>Weather or Not</h1>
+    <p>Weather or Not</p>
 </div>
 
 <form action="/search" method="post" class="row search">
@@ -33,14 +33,22 @@
 
 <div id="weatherBar" class="row">
     {% for day in weather_data %}
-        <div class="{% if loop.index == 1 %}weatherToday{% else %}weatherFuture{% endif %}">
-            <h3>{{ day.day }}</h3>
-            <img src="{{ day.icon_url }}" alt="Weather Icon" class="weatherIcon">
-            <p class="weatherTemperature">Temperature: {{ day.temp }}°F</p>
-            <p>Humidity: {{ day.humidity }}%</p>
-            <p>Wind Speed: {{ day.wind_speed }} mph</p>
-        </div>
-    {% endfor %}
+    <div class="{% if loop.index == 1 %}weatherToday{% else %}weatherFuture{% endif %}">
+        <h3>
+            {% if loop.index == 1 %}
+                Today in {{ city_name }}
+            {% else %}
+                {{ day.day }} in {{ city_name }}
+            {% endif %}
+        </h3>
+        <img src="{{ day.icon_url }}" alt="Weather Icon" class="weatherIcon">
+        <p class="weatherTemperature">Temperature: {{ day.temp }}°F</p>
+        <p>Humidity: {{ day.humidity }}%</p>
+        <p>Wind Speed: {{ day.wind_speed }} mph</p>
+    </div>
+{% endfor %}
+
+
 </div>
 
 </body>
