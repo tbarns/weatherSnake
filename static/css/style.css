@@ -45,6 +45,34 @@ button {
     padding: 25px;
 }
 
+/* ... Previous CSS ... */
+
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.search input[type="text"] {
+    flex: 1;  /* takes up the available space */
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.search button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+}
+
+
 #clearBtn {
     background-color: aquamarine;
     font-weight: 300;
@@ -73,7 +101,7 @@ aside {
     background-color: bisque;
     padding: 0;
     position: relative;
-    height: 100%;
+    height: auto;
     padding-top: 3rem;
     order: -1;
 }

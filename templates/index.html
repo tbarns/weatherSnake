@@ -11,7 +11,7 @@
     <h1>Weather or Not</h1>
 </div>
 
-<form action="/search" method="post" class="row">
+<form action="/search" method="post" class="row search">
     <div class="col-md-8">
         <input type="text" name="location" placeholder="Enter location" />
     </div>
@@ -20,18 +20,18 @@
     </div>
 </form>
 
-<div id="searchHistory" class="row">
+<div id="history" class="row">
     {% for city in history %}
         <div class="history-item">
             <a href="/search?location={{ city }}">{{ city }}</a>
         </div>
     {% endfor %}
-    <a href="/clear-history"><button id='clear-history' >Clear Search History</button></a>
+    <a href="/clear-history"><button id='clearBtn' >Clear Search History</button></a>
 </div>
 
 
 
-<div id="weatherResults" class="row">
+<div id="weatherBar" class="row">
     {% for day in weather_data %}
         <div class="{% if loop.index == 1 %}weatherToday{% else %}weatherFuture{% endif %}">
             <h3>{{ day.day }}</h3>
