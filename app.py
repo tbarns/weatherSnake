@@ -14,41 +14,68 @@ app = Flask(__name__)
 app.secret_key = app_secret_key 
 CORS(app)
 
-# Equivalent of the capitalizeWords function in JS
 def capitalize_words(city_name):
     return " ".join(word.capitalize() for word in city_name.split())
 
 @app.route('/')
 def index():
-    # Get the history of searches from a session variable
     history = session.get('history', [])
-    return render_template('index.html', history=history)
+    return render_template('index.html', history=history, weather_data=[])
 
-@app.route('/getweather', methods=['POST'])
-def search(): 
-    city = request.form.get('location')
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        city = request.form.get('location')
+    else:
+        city = request.args.get('location')
+
     if not city:
-        return jsonify({"error": "Please provide a city name"}), 400
+        return redirect(url_for('index'))
     city = capitalize_words(city)
   
- # Update the session variable
     history = session.get('history', [])
     if city not in history:
         history.append(city)
         session['history'] = history
 
-    # Fetching weather data, equivalent to your getCity function in JS
+    weather_data = fetch_weather_for_city(city)
+    return render_template('index.html', history=history, weather_data=weather_data)
+
+@app.route('/clear-history')
+def clear_history():
+    session['history'] = []
+    return redirect(url_for('index'))
+
+def fetch_weather_for_city(city):
     endpoint = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
     response = requests.get(endpoint)
     if response.status_code == 200:
         data = response.json()
         lat, lon = data['coord']['lat'], data['coord']['lon']
-        
-        # Get the 5-day forecast
+        return get_five_day_forecast(lat, lon)
+    else:
+        return []
+
+@app.route('/getweather', methods=['POST'])
+def get_weather():  # Renamed the function here
+    city = request.form.get('location')
+    if not city:
+        return jsonify({"error": "Please provide a city name"}), 400
+    city = capitalize_words(city)
+  
+    history = session.get('history', [])
+    if city not in history:
+        history.append(city)
+        session['history'] = history
+
+    endpoint = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
+    response = requests.get(endpoint)
+    if response.status_code == 200:
+        data = response.json()
+        lat, lon = data['coord']['lat'], data['coord']['lon']
         five_day_data = get_five_day_forecast(lat, lon)
         return jsonify(five_day_data)
     else:
-        print(response.content)  # This will print the reason for the failure
         return jsonify({"error": "Failed to fetch weather data"}), 400
 
 def get_five_day_forecast(lat, lon):
@@ -56,7 +83,6 @@ def get_five_day_forecast(lat, lon):
     response = requests.get(endpoint)
     data = response.json()
 
-    # Extract data for the next 5 days (you might need to modify this based on the actual structure of the response)
     days_data = []
     for index in range(5):
         day_data = data['list'][index * 8]

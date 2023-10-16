@@ -1,112 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  </head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+<div class="jumbotron">
+    <h1>Weather or Not</h1>
+</div>
 
-  <body>
-    <div class="jumbotron">
-      <h1>Weather or Not</h1>
-    </div>
-
-    <form id="weatherForm" class="row">
-      <div class="col-md-8">
+<form action="/search" method="post" class="row">
+    <div class="col-md-8">
         <input type="text" name="location" placeholder="Enter location" />
-      </div>
-      <div class="col-md-4">
-        <button type="submit" id="searchBtn">5 day forecast</button>
-      </div>
-    </form>
-    <div id="searchHistory" class="row">
-      <!-- Search history will appear here -->
     </div>
-    <button id="clearHistoryBtn">Clear Search History</button>
-    <div id="weatherResults" class="row">
-        
-      <!-- This is where the weather info will appear -->
+    <div class="col-md-4">
+        <button type="submit">5 day forecast</button>
     </div>
-    <script>
-        var sessionHistoryFromServer = {{ history|tojson|safe }};
-    </script>
-    
-    <script>
-    $(document).ready(function () {
-      function capitalizeCity(city) {
-        return city.replace(/\b\w/g, l => l.toUpperCase());
-      }
-    
-      function displayHistory(history) {
-        const historyDiv = $("#searchHistory");
-        historyDiv.empty();
-    
-        history.forEach((city) => {
-          const cityDiv = $("<div>").addClass("history-item").text(city).click(() => {
-            fetchWeatherForCity(city);
-          });
-          historyDiv.append(cityDiv);
-        });
-      }
-    
-      function loadHistory() {
-        let localHistory = JSON.parse(localStorage.getItem("weatherSearchHistory")) || [];
-        let sessionHistory = sessionHistoryFromServer;
-        let mergedHistory = [...new Set([...localHistory, ...sessionHistory])];
-    
-        localStorage.setItem("weatherSearchHistory", JSON.stringify(mergedHistory));
-        displayHistory(mergedHistory);
-      }
-    
-      function saveHistory(city) {
-        city = capitalizeCity(city);
-        let history = JSON.parse(localStorage.getItem("weatherSearchHistory")) || [];
-        if (!history.includes(city)) {
-          history.push(city);
-          localStorage.setItem("weatherSearchHistory", JSON.stringify(history));
-        }
-        displayHistory(history);
-      }
-    
-      function fetchWeatherForCity(city) {
-        $.post("/getweather", { location: city }, function (data) {
-          // Clear previous results
-          $("#weatherResults").empty();
-          // Display weather results
-          data.forEach(function (day) {
-            $("#weatherResults").append(`
-              <div class="weather-card">
-                <img src="${day.icon_url}" alt="Weather Icon" class="weatherIcon">
-                <p class="weatherTemperature">Temperature: ${day.temp}°F</p>
-                <p>Humidity: ${day.humidity}%</p>
-                <p>Wind Speed: ${day.wind_speed} mph</p>
-              </div>
-            `);
-          });
-        });
-      }
-    
-      $("#weatherForm").submit(function (event) {
-        event.preventDefault();
-        const city = $("#weatherForm input[name='location']").val();
-        fetchWeatherForCity(city);
-        saveHistory(city);
-      });
-    
-      $("#clearHistoryBtn").click(function() {
-        console.log("Attempting to clear local storage...");
-        localStorage.removeItem("weatherSearchHistory");
-        loadHistory(); // to refresh and show the cleared history on the page
-        console.log("Local storage cleared. Search history should now be empty.");
-      });
-    });
-    
-    </script>
-    
-  </body>
+</form>
+
+<div id="searchHistory" class="row">
+    {% for city in history %}
+        <div class="history-item">
+            <a href="/search?location={{ city }}">{{ city }}</a>
+        </div>
+    {% endfor %}
+    <a href="/clear-history"><button id='clear-history' >Clear Search History</button></a>
+</div>
+
+
+
+<div id="weatherResults" class="row">
+    {% for day in weather_data %}
+        <div class="weather-card">
+            <img src="{{ day.icon_url }}" alt="Weather Icon" class="weatherIcon">
+            <p class="weatherTemperature">Temperature: {{ day.temp }}°F</p>
+            <p>Humidity: {{ day.humidity }}%</p>
+            <p>Wind Speed: {{ day.wind_speed }} mph</p>
+        </div>
+    {% endfor %}
+</div>
+</body>
 </html>
